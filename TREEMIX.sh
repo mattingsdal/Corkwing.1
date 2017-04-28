@@ -3,20 +3,20 @@
 ##### require the file "within" which denote the population labels for plink stratictifation of SNP frequencies
 
 vcf=freebayes.SNPs.filtered.final.recode.intersect.edit.vcf
-plink --vcf $vcf --missing --cluster --freq --within within --allow-extra-chr
-gzip plink.frq
+# admix_names is vcf file with random SNP files
+plink --bfile admix_names --missing --cluster --freq --within within2.txt --allow-extra-chr
+gzip plink.frq.strat
 
-plink2treemix.py plink.frq.gz treemix.frq.gz
+plink2treemix.py plink.frq.strat.gz treemix.gz
 
-treemix -i treemix.frq.gz -k 1000 -m 3 -root ard -o corkwing -se -bootstrap -seed 666
+treemix -i treemix.gz -k 1000 -m 3 -root Ardtoe -o corkwing -se -bootstrap -seed 666
 
-for i 1..10};do
-  treemix -i treemix.gz -o $i -k 1000 -m $i -root Ard;
+for i in {1..10};do
+  treemix -i treemix.gz -o $i -k 1000 -m ${i} -root Ardtoe -se -bootstrap -seed 43;
 done
 
 treepop -i treemix -k 1000
 
-
-source("src/plotting funcs.R")
+source("treemix-1.13/src/plotting_funcs.R")
 plot tree("1")
 plot_resid("1", "poporder")
