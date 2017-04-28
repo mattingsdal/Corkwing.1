@@ -13,3 +13,8 @@ for i 1..10};do
 done
 
 treepop -i treemix -k 1000
+
+
+source("src/plotting funcs.R")
+plot tree("1")
+plot_resid("1", "poporder")
