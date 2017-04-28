@@ -1,3 +1,3 @@
 # Corkwing.1
 Documentaiton of scripts used in paper 1.
-ALl code require a vcf file. 
+All example code require a single vcf file. 
