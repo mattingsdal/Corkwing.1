@@ -8,5 +8,8 @@ gzip plink.frq
 
 plink2treemix.py plink.frq.gz treemix.frq.gz
 
-treemix -i treemix.gz -o out -k 1000 -m 2 -root Ard
+for i 1..10};do
+  treemix -i treemix.gz -o $i -k 1000 -m $i -root Ard;
+done
+
 treepop -i treemix -k 1000
