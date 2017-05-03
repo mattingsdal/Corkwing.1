@@ -12,6 +12,8 @@ mv "admix_names.${K}.P" "${i}_admix_names.${K}.P"
 done
 done
 
+# zip Q files and submit to CLUMPAK server
+
 ##### K = 2
 tbl=read.table("admix.2.Q")
 indTable=read.table("pop_info.txt",col.names = c("Sample", "Sex", "Pop"))
