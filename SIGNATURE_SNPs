@@ -1,21 +1,36 @@
-
 library(adegenet)
 library(caret)
 library(pforeach)
 library(kknn)
 
-source("C:/Rlib/WC84.R")
+script=getURL("https://raw.githubusercontent.com/mattingsdal/Population-genomics/master/WC84.R", ssl.verifypeer = FALSE)
+eval(parse(text = script))
 
-setwd("C:/Users/mortenma/Google Drive/post doc/essential files/paper 1/test")
 
-data=read.PLINK("SNP.QC.population.raw",parallel=FALSE)
+setwd("C:/Users/mortenma/Desktop/Rfolder")
+data=read.PLINK("plink.raw",parallel=FALSE)
+
+
+
+
+
 
 # scandinavia only only
-data2=data[-8:-15,]
+ard=grep("ARD",data$pop)
+data2=data[-ard,]
 pop=c(rep("south",7),rep("south",8),rep("south",10),rep("west",24),rep("south",8))
-corkwing=cbind(as.data.frame(pop),as.data.frame(data2))
+
+
+index=matrix(ncol=1,nrow=length(data2$pop))
+tmp=grep("EG|TV|AR6|GF",data2$pop)
+tmp2=grep("ST|SM|NH|GF",data2$pop)
+
+index[tmp,]="south"
+index[tmp2,]="west"
+
+corkwing=cbind(as.data.frame(index),as.data.frame(data2))
 # keep pop info
-pop=corkwing$pop
+pop=as.data.frame(index)
 # create folds
 folds <- cut(seq(1,nrow(corkwing)),breaks=5,labels=FALSE)
 # create snp interval
@@ -79,11 +94,3 @@ polygon(c(x,rev(x)),c(upper,rev(lower)),col="gray")
 lines(rowMeans(final))
 
 arrows(x, 2*lower, x,upper, length=0.05, angle=90, code=0)
-
-
-
-
-
-
-
-
