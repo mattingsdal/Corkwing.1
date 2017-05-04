@@ -1,7 +1,20 @@
+## remove SNPs within repeats (require Repeatmasker & Repeatmodeller bed file
+bedtools intersect -a freebayes.SNPs.filtered.final.recode.intersect.edit.vcf -v -header -b RM_masked.bed >freebayes.SNPs.filtered.final.recode.intersect.edit.RMmask.vcf
+
+## exteact data on largest N50 contigs
+grep length freebayes.SNPs.filtered.final.recode.intersect.edit.RMmask.vcf | sed 's/>//g' >header
+awk -F "=" '{if ($4>430000) print $3"\t1\t"$4}' header | sed 's/,length//g' >N50_contigs.bed
+bedtools intersect -a freebayes.SNPs.filtered.final.recode.intersect.edit.RMmask.vcf -wa -header -b N50_contigs.bed >freebayes.SNPs.filtered.final.recode.intersect.edit.RMmask.N50.vcf
+
+## remove LD
+
+
+R
 library(adegenet)
 library(caret)
 library(pforeach)
 library(kknn)
+library(RCurl)
 
 script=getURL("https://raw.githubusercontent.com/mattingsdal/Population-genomics/master/WC84.R", ssl.verifypeer = FALSE)
 eval(parse(text = script))
@@ -10,21 +23,12 @@ eval(parse(text = script))
 setwd("C:/Users/mortenma/Desktop/Rfolder")
 data=read.PLINK("plink.raw",parallel=FALSE)
 
-
-
-
-
-
 # scandinavia only only
 ard=grep("ARD",data$pop)
 data2=data[-ard,]
-pop=c(rep("south",7),rep("south",8),rep("south",10),rep("west",24),rep("south",8))
-
-
 index=matrix(ncol=1,nrow=length(data2$pop))
 tmp=grep("EG|TV|AR6|GF",data2$pop)
 tmp2=grep("ST|SM|NH|GF",data2$pop)
-
 index[tmp,]="south"
 index[tmp2,]="west"
 
@@ -50,7 +54,7 @@ for (a in 1:10) {
 			test <- corkwing[index,]
 		        train <- corkwing[-index,]
 			# get SNP wise Fst for each fold	
-			WC84(train[,-1],train$pop)$theta})
+			WC84(train[,-1],train[,1])$theta})
 			
 			# loop through fst matrix
 			for (i in 1:5) {
