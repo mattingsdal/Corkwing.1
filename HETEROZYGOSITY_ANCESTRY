@@ -1,0 +1,19 @@
+vcf=freebayes.SNPs.filtered.final.recode.intersect.edit.vcf
+vcftools --vcf $vcf --het
+mv out.het admixture/
+# admixture Q values
+
+# rd into R and plot Ancestry vs heterozygosity
+
+R
+het=read.table("out.het",sep="\t",header=T)
+Q1=read.table("9_admix_names.2.Q",sep="",header=F)
+
+
+res=cbind(as.character(het[,1]),het[,5],Q1[,1])
+plot(as.numeric(as.character(res[,2])),as.numeric(as.character(res[,3])),xlab="Heterozygosity(Fis)",ylab="Ancestry (k=2)")
+text(as.numeric(as.character(res[,2])),as.numeric(as.character(res[,3])),label=as.character(res[,1]),cex=0.5,pos=4)
+
+
+### test Hlest package
+https://cran.r-project.org/web/packages/HIest/index.html
