@@ -21,13 +21,19 @@ library(Cairo)
 tbl=read.table("admix.2.Q")
 indTable=read.table("pop_info.txt",col.names = c("Sample", "Sex", "Pop"))
 tbl2=cbind(tbl,indTable[,1],indTable[,3])
-ord2 = tbl2[order(tbl2[,4],tbl2[,3]),]
 
-#### K = 3
 tbl=read.table("admix.3.Q")
 indTable=read.table("pop_info.txt",col.names = c("Sample", "Sex", "Pop"))
 tbl3=cbind(tbl,indTable[,1],indTable[,3])
-ord3 = tbl3[order(tbl3[,5],tbl3[,4]),]
+
+#### K = 3
+index=c(grep("ARD",tbl2[,3]),grep("SM",tbl2[,3]),grep("NH",tbl2[,3]),grep("ST",tbl2[,3]),grep("EG",tbl2[,3]),grep("AR6",tbl2[,3]),grep("TV",tbl2[,3]),grep("GF",tbl2[,3]))
+
+ord2 = tbl2[index,]
+ord3 = tbl3[index,]
+
+
+
 
 ################ PLOT
 Cairo(file="ADMIXTURE.combined.full.pdf",type="pdf",width=160,height=80,units="mm")
