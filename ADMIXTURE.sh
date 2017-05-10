@@ -14,6 +14,9 @@ done
 
 # zip Q files and submit to CLUMPAK server
 
+R
+library(Cairo)
+
 ##### K = 2
 tbl=read.table("admix.2.Q")
 indTable=read.table("pop_info.txt",col.names = c("Sample", "Sex", "Pop"))
