@@ -31,8 +31,8 @@ west=rbind(SM,NH,ST)
 #### investigate WEST & SOUTH sharing
 ibd_south_ard <- data.frame(log10(south[,7]-south[,6]))
 ibd_west_ard <- data.frame(log10(west[,7]-west[,6]))
-colnames(ibd_west_ard)="length"
-colnames(ibd_south_ard)="length"
+colnames(ibd_west_ard)="Length"
+colnames(ibd_south_ard)="Length"
 ibd_south_ard$label <- 'South & Ardtoe' 
 ibd_west_ard$label<- 'West & Ardtoe'
 
@@ -50,17 +50,22 @@ rm(test2)
 test=rbind(ibd[ibd[,1] %in% south,],ibd[ibd[,3] %in% south,])
 test2=rbind(test[test[,1] %in% west,],test[test[,3] %in% west,])
 ibd_south_west <- data.frame(log10(test2[,7]-test2[,6]))
-colnames(ibd_south_west)="length"
+colnames(ibd_south_west)="Length"
 ibd_south_west$label<- 'South & West'	
 
 vegLengths <- rbind(ibd_south_ard, ibd_west_ard,ibd_south_west)
 
 #now make your lovely plot
 
-p=ggplot(vegLengths, aes(length, fill = label)) + 
+p=ggplot(vegLengths, aes(Length, fill = label)) + 
   geom_histogram(bins=20,binwidth=0.1,colour="black",position="dodge",alpha=0.3) +
   geom_vline(xintercept=mean(ibd_south_west[,1]),color="#00BA38", linetype="dashed", size=1) +
   geom_vline(xintercept=mean(ibd_south_ard[,1]),color="#F8766D", linetype="dashed", size=1) +
   geom_vline(xintercept=mean(ibd_west_ard[,1]),color="#619CFF", linetype="dashed", size=1)+
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))+
-  theme_classic()
+  labs(x = "log10 IBD length") +
+  labs(y = "Count") +
+  theme(legend.title=element_blank()) +
+  guides(fill=guide_legend(title=NULL)) +
+   theme_classic() +
+   theme(legend.position=c(.75, .75))
