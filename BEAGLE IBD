@@ -1,0 +1,65 @@
+library(ggplot2)
+
+tmp=read.table("fastIBD.ibd",sep="\t",header=F)
+ibd=tmp[tmp[,8]>3,]
+samples1=sort(as.vector(unique(ibd[,1])))
+samples2=sort(as.vector(unique(ibd[,3])))
+samples=c(samples1,samples2)
+id=sort(unique(samples))
+
+#############################
+#### investigate ARD sharing
+# ARD shared with south
+# ARD shared with west
+south=c("AR6","TV","GF","EG")
+west=c("ST","NH","SM")
+
+ARD=rbind(ibd[grep("ARD",ibd[,1]),],ibd[grep("ARD",ibd[,3]),])
+south=c(id[grep("AR6",id)],id[grep("GF",id)],id[grep("TV",id)])	
+west=c(id[grep("ST",id)],id[grep("NH",id)],id[grep("SM",id)])	
+AR=rbind(ARD[grep("AR6",as.character(ARD[,1])),],ARD[grep("AR6",as.character(ARD[,3])),])
+GF=rbind(ARD[grep("GF",as.character(ARD[,1])),],ARD[grep("GF",as.character(ARD[,3])),])
+TV=rbind(ARD[grep("TV",as.character(ARD[,1])),],ARD[grep("TV",as.character(ARD[,3])),])
+EG=rbind(ARD[grep("EG",as.character(ARD[,1])),],ARD[grep("EG",as.character(ARD[,3])),])
+ST=rbind(ARD[grep("ST",as.character(ARD[,1])),],ARD[grep("ST",as.character(ARD[,3])),])
+SM=rbind(ARD[grep("SM",as.character(ARD[,1])),],ARD[grep("SM",as.character(ARD[,3])),])
+NH=rbind(ARD[grep("NH",as.character(ARD[,1])),],ARD[grep("NH",as.character(ARD[,3])),])
+south=rbind(AR,TV,GF,EG)
+west=rbind(SM,NH,ST)
+
+#############################
+#### investigate WEST & SOUTH sharing
+ibd_south_ard <- data.frame(log10(south[,7]-south[,6]))
+ibd_west_ard <- data.frame(log10(west[,7]-west[,6]))
+colnames(ibd_west_ard)="length"
+colnames(ibd_south_ard)="length"
+ibd_south_ard$label <- 'South & Ardtoe' 
+ibd_west_ard$label<- 'West & Ardtoe'
+
+id=sort(unique(samples))
+
+south=c(id[grep("AR6",id)],id[grep("GF",id)],id[grep("EG",id)],id[grep("TV",id)])	
+west=c(id[grep("ST",id)],id[grep("NH",id)],id[grep("SM",id)])	
+
+south=sample(south,7)
+west=sample(west,7)
+
+rm(test)
+rm(test2)
+
+test=rbind(ibd[ibd[,1] %in% south,],ibd[ibd[,3] %in% south,])
+test2=rbind(test[test[,1] %in% west,],test[test[,3] %in% west,])
+ibd_south_west <- data.frame(log10(test2[,7]-test2[,6]))
+colnames(ibd_south_west)="length"
+ibd_south_west$label<- 'South & West'	
+
+vegLengths <- rbind(ibd_south_ard, ibd_west_ard,ibd_south_west)
+
+#now make your lovely plot
+
+ggplot(vegLengths, aes(x=length,fill = label)) + 
+geom_histogram(bins=20,binwidth=0.1,position="dodge")+
+  geom_vline(xintercept=mean(ibd_south_west[,1])) +
+  geom_vline(xintercept=mean(ibd_south_ard[,1])) +
+  geom_vline(xintercept=mean(ibd_west_ard[,1]))+
+theme_classic()
