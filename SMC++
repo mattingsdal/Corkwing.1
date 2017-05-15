@@ -22,7 +22,7 @@ smc++ estimate --knots 20 -o WEST/ --t1 100 --tK 100000 5e-8 WEST/*gz
 setwd("C:/Users/mortenma/Desktop/Rfolder")
 both=read.table("plot.csv",sep=",",header=T)
 
-plot(x=NULL, y=NULL, xlim=c(100, 100000),ylim=c(1,5))
+plot(x=NULL, y=NULL, xlim=c(100, 10000),ylim=c(1,5))
 lines(both[both[,1]=="South",2]*5,log10(both[both[,1]=="South",3]),lwd=5,col="#4169e1")
 lines(both[both[,1]=="West",2]*5,log10(both[both[,1]=="West",3]),lwd=5,col="#ff4500")
 
