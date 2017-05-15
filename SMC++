@@ -3,7 +3,7 @@ VFF=freebayes.SNPs.filtered.final.recode.intersect.edit.vcf.gz
 
 for pop_south in GF03 GF49 GF01 GF02 GF05 TV67 TV65 TV69 TV74 TV68 AR62 AR65 AR61 AR63 AR66;do
 for chr in $CHR;do
-smc++ vcf2smc -d $pop_south $pop_south $VCF SOUTH/$pop_south.$chr.smc.gz $chr South:$pop_south,ARD20,ARD23,ARD8,ARD21,ARD6,ARD18,ARD15;done;done
+smc++ vcf2smc -d $pop_south $pop_south $VCF SOUTH/$pop_south.$chr.smc.gz $chr South:$pop_south,NH61,NH60,NH64,NH65,NH67,NH69,NH61,NH68,SM112,SM116,SM117,SM118,SM115,SM111,SM113,SM114;done;done
 
 
 for pop_west in NH61 NH60 NH64 NH65 NH67 NH69 NH61 NH68 SM112 SM116 SM117 SM118 SM115 SM111 SM113 SM114;do
