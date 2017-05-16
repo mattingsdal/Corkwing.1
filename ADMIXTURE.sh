@@ -69,13 +69,13 @@ par(mar=c(2,2,0,0))
 barplot(t(as.matrix(ord4[,5])),space=0,col="black",xlim=c(0,65),ylim=c(-0.6,0.4),ylab="F",las=2,cex.main=0.5,cex.names=0.3,cex=0.5,border=NA)
 
 par(mar=c(2,2,0.5,1))
-plot(loc[,1],loc[,2],col=as.character(loc[,4]),pch=19,cex=1,ylim=c(56,63.5))
+plot(loc[,1],loc[,2],col=as.character(loc[,4]),pch=19,cex=1,ylim=c(56,63.5),xlim=c(-6.5,11))
 text(8,60,label="Norway",col="grey80",cex=0.5,font=3)
 text(-3.5,57,label="Scotland",col="grey80",cex=0.5,font=3)
 text(9.5,56.3,label="Denmark",col="grey80",cex=0.5,font=3)
 map(add = T, interior = F, col = "grey80")
-points(loc[,1],loc[,2],col=as.character(loc[,4]),pch=19,cex=1,ylim=c(56,63.5))
-text(loc[,1],loc[,2],label=c("ARD","SM","NH","ST","EG","AR","TV","GF"),pos=3,cex=0.5)
+points(loc[,1],loc[,2],col="black",pch=19,cex=1,ylim=c(56,63.5))
+text(loc[,1]-0.5,loc[,2],label=c("ARD","SM","NH","ST","EG","AR","TV","GF"),pos=3,cex=0.5)
 dev.off()
 
 
