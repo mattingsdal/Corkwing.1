@@ -69,3 +69,10 @@ p=ggplot(vegLengths, aes(Length, fill = label)) +
   guides(fill=guide_legend(title=NULL)) +
    theme_classic() +
    theme(legend.position=c(.75, .75))
+   
+   
+   
+p2=ggplot(vegLengths, aes(Length, fill = label)) + 
+  geom_histogram(bins=20,binwidth=0.1,position="dodge",aes(y = ..density..,)) +
+  geom_line(stat = "density")
+   
