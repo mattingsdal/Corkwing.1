@@ -59,9 +59,9 @@ vegLengths <- rbind(ibd_south_ard, ibd_west_ard,ibd_south_west)
 
 p=ggplot(vegLengths, aes(Length, fill = label)) + 
   geom_histogram(bins=20,binwidth=0.1,colour="black",position="dodge",alpha=0.3) +
-  geom_vline(xintercept=mean(ibd_south_west[,1]),color="#00BA38", linetype="dashed", size=1) +
-  geom_vline(xintercept=mean(ibd_south_ard[,1]),color="#F8766D", linetype="dashed", size=1) +
-  geom_vline(xintercept=mean(ibd_west_ard[,1]),color="#619CFF", linetype="dashed", size=1)+
+  geom_vline(xintercept=median(ibd_south_west[,1]),color="#00BA38", linetype="dashed", size=1) +
+  geom_vline(xintercept=median(ibd_south_ard[,1]),color="#F8766D", linetype="dashed", size=1) +
+  geom_vline(xintercept=median(ibd_west_ard[,1]),color="#619CFF", linetype="dashed", size=1)+
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))+
   labs(x = "log10 IBD length") +
   labs(y = "Count") +
