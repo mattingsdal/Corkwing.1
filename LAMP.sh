@@ -1,4 +1,9 @@
 cd /usit/abel/u1/mortema/software/lamp.x86_64-unknown-linux-gnu.REL_2_5/test
+
+SYMME00023145
+SYMME00000053
+SYMME00000084
+
 chr=SYMME00023145
 
 plink --bfile ~/vcf/haplotypes_name_sort --chr $chr --within within.plink --freq --allow-extra-chr
